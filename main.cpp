@@ -1,27 +1,25 @@
 #include <iostream>
+#include <filesystem>
 #include <string>
 
-enum CaseMode {
-  kAllUpper,
-  kAllLower,
-  kAuto,
-};
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define RESET "\033[0m"
 
 struct {
   std::string working_directory;
   std::string target;
-  CaseMode case_mode;
 } Parameters;
 
 int main(int argc, char* argv[]) {
-  Parameters.working_directory = argv[0];
-  std::cout << "Working directory: " << Parameters.working_directory << std::endl;
-
-  // Usage: meow <target>
-  for (int i = 1; i < argc; i++) {
-    std::string token = argv[i];
-    std::cout << token << std::endl;
+  if (argc > 2) {
+    std::cout << RED << "Error: Unexpected number of arguments" << RESET
+              << std::endl;
+    return 1;
   }
+
+  Parameters.working_directory = argv[0];
+  Parameters.target = argv[1];
 
   return 0;
 }
