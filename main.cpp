@@ -1,25 +1,29 @@
 #include <iostream>
-#include <filesystem>
+#include <vector>
 #include <string>
 
-#define RED "\033[31m"
-#define YELLOW "\033[33m"
-#define RESET "\033[0m"
+const std::vector<char> kPunctSplit { '.', '?', '!' };
+const std::string kMeow = " meow";
 
-struct {
-  std::string working_directory;
-  std::string target;
-} Parameters;
+bool is_in(char& c)
+{
+  for (auto punct : kPunctSplit)
+    if (punct == c) return true;
+  return false;
+}
 
-int main(int argc, char* argv[]) {
-  if (argc > 2) {
-    std::cout << RED << "Error: Unexpected number of arguments" << RESET
-              << std::endl;
-    return 1;
+int main()
+{
+  std::string original_text, output_text;
+  std::getline(std::cin, original_text);
+
+  for (auto iter = original_text.begin(); iter != original_text.cend(); ++iter)
+  {
+    if (is_in(*iter))
+      output_text += kMeow;
+    output_text += *iter;
   }
 
-  Parameters.working_directory = argv[0];
-  Parameters.target = argv[1];
-
+  std::cout << output_text << std::endl;
   return 0;
 }
